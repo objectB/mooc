@@ -54,7 +54,7 @@ public class AuthConfig {
         chaim.put("/api/login","anon");
         chaim.put("/api/**","noSessionCreation,jwtFilter");
        // chaim.put("/api/**","jwtFilter");
-        filter.setFilterChainDefinitionMap(chaim);
+       // filter.setFilterChainDefinitionMap(chaim);
         return  filter;
     }
 

@@ -51,7 +51,7 @@ public class AuthConfig {
         filter.setFilters(filters);
 
         Map<String, String> chaim  = new LinkedHashMap<>();
-        chaim.put("/login","anon");
+        chaim.put("/api/login","anon");
         chaim.put("/api/**","noSessionCreation,jwtFilter");
        // chaim.put("/api/**","jwtFilter");
         filter.setFilterChainDefinitionMap(chaim);

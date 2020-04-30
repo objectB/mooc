@@ -30,10 +30,8 @@ public class R  extends ConcurrentHashMap<String ,Object> {
     }
 
 
-
-
-    public static R error(int code,String error){
-        return R.ok().put("error",error).put("code",code).put("msg","");
+    public static R error(int code,String msg){
+        return R.ok().put("code",code).put("msg",msg);
     }
 
     public static R error(int code,String error,String msg){

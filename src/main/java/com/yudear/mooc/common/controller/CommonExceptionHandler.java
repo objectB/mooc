@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class CommonExceptionHandler {
 
-
     /**
      * 自定义处理异常
      * @return

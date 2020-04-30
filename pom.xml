@@ -74,8 +74,6 @@
             <artifactId>ehcache</artifactId>
         </dependency>
 
-
-
         <!--模板引擎beetl-->
         <dependency>
             <groupId>com.ibeetl</groupId>

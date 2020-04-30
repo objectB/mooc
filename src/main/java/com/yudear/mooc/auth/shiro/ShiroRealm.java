@@ -31,34 +31,31 @@ public class ShiroRealm extends AuthorizingRealm {
      * @throws AuthenticationException
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+     throws AuthenticationException{
          JWTToken jwtToken = (JWTToken) authenticationToken;
          String  token = (String) jwtToken.getPrincipal();
-        Claims claims=null;
-        User user =new User();
-        try {
-            claims = Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(
-                            JWTUtil.configProperties.getSecret()))
-                    .parseClaimsJws(token)
-                    .getBody();
-            user.setId(claims.getId());
-            if(claims.get("roles") !=null) {
-                user.setRoles((String) claims.get("roles"));
-            }
-        }catch (ExpiredJwtException e){
-           throw new AuthenticationException("token过期"+e.getMessage());
-        }catch (UnsupportedJwtException e){
-            throw new AuthenticationException("token无效"+e.getMessage());
-        }catch (MalformedJwtException e){
-            throw new AuthenticationException("token格式错误"+e.getMessage());
-        }catch (SignatureException e){
-            throw new AuthenticationException("token签名无效"+e.getMessage());
-        }catch (IllegalArgumentException e){
-            throw new AuthenticationException("token参数异常"+e.getMessage());
-        }catch (Exception e){
-            throw new AuthenticationException("token无效"+e.getMessage());
-        }
+         User user =new User();
+
+         try{
+             Claims  claims = Jwts.parser()
+                     .setSigningKey(DatatypeConverter.parseBase64Binary(
+                             JWTUtil.configProperties.getSecret()))
+                     .parseClaimsJws(token)
+                     .getBody();
+             user.setId(claims.getId());
+             if(claims.get("roles") !=null) {
+                 user.setRoles((String) claims.get("roles"));
+             }
+
+         }catch (ExpiredJwtException e){
+             throw  new AuthenticationException("token过期");
+         }catch (UnsupportedJwtException e){
+             throw  new AuthenticationException("token无效");
+         }catch (MalformedJwtException e){
+             throw  new AuthenticationException("token格式错误");
+         }
+
         System.out.println("认证完成");
         return new SimpleAuthenticationInfo(user,Boolean.TRUE,getName());
 

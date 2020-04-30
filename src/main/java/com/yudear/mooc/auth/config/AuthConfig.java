@@ -53,7 +53,7 @@ public class AuthConfig {
         Map<String, String> chaim  = new LinkedHashMap<>();
         chaim.put("/api/login","anon");
         chaim.put("/api/**","noSessionCreation,jwtFilter");
-       // chaim.put("/api/**","jwtFilter");
+        chaim.put("/api/**","jwtFilter");
         filter.setFilterChainDefinitionMap(chaim);
         return  filter;
     }

@@ -28,12 +28,4 @@ public class CommonExceptionHandler {
         return R.error(500,"服务器错误",e.getMessage());
     }
 
-
-
-
-
-
-
-
-
 }

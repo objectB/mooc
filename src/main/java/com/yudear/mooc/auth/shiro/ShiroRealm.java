@@ -55,8 +55,6 @@ public class ShiroRealm extends AuthorizingRealm {
          }catch (MalformedJwtException e){
              throw  new AuthenticationException("token格式错误");
          }
-
-        System.out.println("认证完成");
         return new SimpleAuthenticationInfo(user,Boolean.TRUE,getName());
 
     }

@@ -37,7 +37,6 @@ public class JWTFilter extends AccessControlFilter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-
         String token = request.getHeader("jwt");
         if (StringUtils.isEmpty(token)) {
             String msg = JSON.toJSONString(R.error(500, "token不能为空"));
@@ -53,28 +52,6 @@ public class JWTFilter extends AccessControlFilter {
             String msg = JSON.toJSONString(R.error(500, e.getMessage()));
             response.getWriter().print(msg);
             return false;
-//        } catch (UnsupportedJwtException e) {
-//            String msg = JSON.toJSONString(R.error(500, "token无效"));
-//            response.getWriter().print(msg);
-//            return false;
-//        } catch (MalformedJwtException e) {
-//            String msg = JSON.toJSONString(R.error(500, "token格式错误"));
-//            response.getWriter().print(msg);
-//            return false;
-//        } catch (SignatureException e) {
-//            String msg = JSON.toJSONString(R.error(500, "token签名错误"));
-//            response.getWriter().print(msg);
-//            return false;
-//        } catch (IllegalArgumentException e) {
-//            String msg = JSON.toJSONString(R.error(500, "token参数异常"));
-//            response.getWriter().print(msg);
-//            return false;
-//        }
-//        catch (Exception e) {
-//            String msg = JSON.toJSONString(R.error(500, "token出错"));
-//            response.getWriter().print(msg);
-//            return false;
-//        }
         }
         request.setAttribute("token", JWTUtil.getClaimByToken(token));
         return true;

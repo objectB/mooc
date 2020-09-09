@@ -34,7 +34,6 @@ public class LoginController {
         if(map.get("name") == null || map.get("password") ==null){
             return R.error(500,"用户名密码不能为空");
         }
-
         User user = iuserService.login(map.get("name"), map.get("password"));
         if(user == null){
             return R.error(500,"用户名或密码错误");

@@ -1,6 +1,6 @@
 package com.yudear.mooc.service;
 
-import com.yudear.mooc.model.User;
+import com.yudear.mooc.entiy.User;
 
 public interface IuserService {
 

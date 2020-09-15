@@ -20,4 +20,13 @@
            eternal="false"
            timeToIdleSeconds="30"/>
 
+    <cache
+            name="user_token"
+            overflowToDisk="true"
+            timeToLiveSeconds="3600"
+            maxElementsInMemory="10000"
+
+
+     />
+
 </ehcache>

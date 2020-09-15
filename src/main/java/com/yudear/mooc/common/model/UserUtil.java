@@ -1,6 +1,6 @@
 package com.yudear.mooc.common.model;
 
-import com.yudear.mooc.model.User;
+import com.yudear.mooc.entiy.User;
 import com.yudear.mooc.service.IuserService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,35 +7,37 @@ import java.util.concurrent.ConcurrentHashMap;
 //业务处理类
 public class R  extends ConcurrentHashMap<String ,Object> {
 
+    public static final int SUCCESS_CODE = 0;
+    public static final int ERROR_CODE = 1;
 
     public R(){
-        this.put("code", HttpStatus.OK.value());
+        this.put("code", SUCCESS_CODE);
         this.put("msg","success !!!");
     }
 
-    public static R ok(){
+    public static R success(){
         return  new R();
     }
 
-    public static R ok(String msg){
-        return R.ok().put("msg",msg);
+    public static R success(String msg){
+        return R.success().put("msg",msg);
     }
 
-    public static R ok(Object data){
-        return R.ok().put("data",data);
+    public static R success(Object data){
+        return R.success().put("data",data);
     }
 
-    public static R ok(String msg,Object data){
-        return R.ok().put("msg",msg).put("data",data);
+    public static R success(String msg,Object data){
+        return R.success().put("msg",msg).put("data",data);
     }
 
+
+    public static R error(String msg){
+        return R.success().put("code",ERROR_CODE).put("msg",msg);
+    }
 
     public static R error(int code,String msg){
-        return R.ok().put("code",code).put("msg",msg);
-    }
-
-    public static R error(int code,String error,String msg){
-        return R.ok().put("error",error).put("code",code).put("msg",msg);
+        return R.success().put("code",code).put("msg",msg);
     }
 
 

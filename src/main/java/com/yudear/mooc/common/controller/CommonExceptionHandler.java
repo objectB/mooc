@@ -28,7 +28,7 @@ public class CommonExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     public R handlerException(Throwable e) {
-        return R.error(500, "服务器错误", e.getMessage());
+        return R.error(500,  e.getMessage());
     }
 
 

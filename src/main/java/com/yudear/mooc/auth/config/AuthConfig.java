@@ -2,7 +2,6 @@ package com.yudear.mooc.auth.config;
 
 import com.yudear.mooc.auth.shiro.JWTFilter;
 import com.yudear.mooc.auth.shiro.ShiroRealm;
-import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -17,6 +16,8 @@ import org.springframework.context.annotation.DependsOn;
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.yudear.mooc.common.utils.Constants.NO_NEED_FILTER;
 
 @Configuration
 public class AuthConfig {
@@ -41,21 +42,24 @@ public class AuthConfig {
      */
     @Bean
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager){
-        ShiroFilterFactoryBean filter = new ShiroFilterFactoryBean();
+        ShiroFilterFactoryBean filterBean = new ShiroFilterFactoryBean();
         //注入安全管理器
-        filter.setSecurityManager(securityManager);
+        filterBean.setSecurityManager(securityManager);
         //未验证调整地址
-        filter.setLoginUrl("/unauthorized");
+        filterBean.setLoginUrl("/unauthorized");
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("jwtFilter",new JWTFilter());
-        filter.setFilters(filters);
+        filterBean.setFilters(filters);
 
         Map<String, String> chaim  = new LinkedHashMap<>();
-        chaim.put("/api/login","anon");
-        chaim.put("/api/**","noSessionCreation,jwtFilter");
-       // chaim.put("/api/**","jwtFilter");
-       filter.setFilterChainDefinitionMap(chaim);
-        return  filter;
+        chaim.put("/login","anon");
+        for(String en: NO_NEED_FILTER){
+            chaim.put(en,"anon");
+        }
+        chaim.put("/**","noSessionCreation,jwtFilter");
+//        chaim.put("/api/**","jwtFilter");
+        filterBean.setFilterChainDefinitionMap(chaim);
+        return  filterBean;
     }
 
     /**

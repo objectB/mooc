@@ -12,7 +12,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @MapperScan("com.yudear.mooc.mapper")
 @SpringBootApplication
 @EnableCaching
-@EnableSwagger2
 @EnableTransactionManagement(proxyTargetClass = true)
 public class MoocApplication {
 

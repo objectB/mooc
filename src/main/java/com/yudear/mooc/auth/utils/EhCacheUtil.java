@@ -76,7 +76,6 @@ public class EhCacheUtil {
             Cache cache = manager.getCache(cacheName);
             Element element = new Element(key, value);
             cache.put(element);
-            log.error("添加缓存失败：{}","fefe");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("添加缓存失败：{}",e.getMessage());

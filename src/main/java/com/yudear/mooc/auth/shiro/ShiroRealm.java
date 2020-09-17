@@ -2,6 +2,7 @@ package com.yudear.mooc.auth.shiro;
 
 import com.alibaba.fastjson.JSON;
 import com.yudear.mooc.auth.model.User;
+import com.yudear.mooc.auth.utils.EhCacheUtil;
 import com.yudear.mooc.auth.utils.JWTUtil;
 import io.jsonwebtoken.*;
 import org.apache.shiro.authc.AuthenticationException;
@@ -44,8 +45,11 @@ public class ShiroRealm extends AuthorizingRealm {
                      .parseClaimsJws(token)
                      .getBody();
              user.setId(claims.getId());
-             if(claims.get("roles") !=null) {
-                 user.setRoles((String) claims.get("roles"));
+             user.setUsername(claims.getSubject());
+             String old =(String) EhCacheUtil.getInstance().get(EhCacheUtil.TOKEN_CACHE,
+                     EhCacheUtil.USER_TOKEN_KEY+user.getUsername());
+             if(old != null && !old.equals(token)){
+                throw  new AuthenticationException("token失效");
              }
 
          }catch (ExpiredJwtException e){
@@ -54,7 +58,13 @@ public class ShiroRealm extends AuthorizingRealm {
              throw  new AuthenticationException("token无效");
          }catch (MalformedJwtException e){
              throw  new AuthenticationException("token格式错误");
+         }catch (SignatureException e ){
+             throw  new AuthenticationException("token错误");
          }
+
+
+
+
         return new SimpleAuthenticationInfo(user,Boolean.TRUE,getName());
 
     }

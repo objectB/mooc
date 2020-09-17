@@ -57,5 +57,5 @@ mybatis-plus:
 app:
     jwt:
      header: token
-     expire: 60
+     expire: 1800
      secret: aHR0cHM6Ly9teS5vc2NoaW5hLm5ldC91LzM2ODE4Njg=

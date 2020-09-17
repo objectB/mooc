@@ -1,6 +1,7 @@
 package com.yudear.mooc.common.model;
 
 import com.yudear.mooc.entiy.User;
+import com.yudear.mooc.service.IUserService;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,14 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class UserUtil {
 
-//    @Autowired
-//    IuserService userService1;
-//
-//    private static IuserService realService;
+    @Autowired
+    IUserService iUserService;
+
+    private static IUserService realService;
 
     @PostConstruct
     public void init() {
-//        realService = userService1;
+       realService = iUserService;
     }
 
 
@@ -28,9 +29,7 @@ public class UserUtil {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Claims claims = (Claims) request.getAttribute("token");
         String subject = claims.getSubject();
-//        User currentUser = realService.login(subject, null);
-        return  null;
-
+        User currentUser = realService.findUserById(Integer.valueOf(claims.getId()));
+        return currentUser == null ? new User():currentUser;
     }
-
 }

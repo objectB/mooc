@@ -26,15 +26,14 @@ public class JWTUtil {
     }
 
 
-    public static String generatorToken(String subject, String roles){
+    public static String createToken(int subject, String roles){
         JwtBuilder jwt = Jwts.builder();
-        jwt.setId(UUID.randomUUID().toString());
-        jwt.setSubject(subject);
+        jwt.setId(subject+"");
         jwt.setIssuer(configProperties.getHeader());
+        jwt.setSubject(roles);
         jwt.setIssuedAt(new Date());
         Date expiration =new Date(System.currentTimeMillis()+configProperties.getExpire()*1000);
         jwt.setExpiration(expiration);
-        jwt.claim("roles",roles);
         byte[] secretkeyBytes = DatatypeConverter.parseBase64Binary(configProperties.getSecret());
         jwt.signWith(SignatureAlgorithm.HS256,secretkeyBytes);
         return  jwt.compact();

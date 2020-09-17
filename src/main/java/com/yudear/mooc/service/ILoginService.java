@@ -1,10 +1,10 @@
 package com.yudear.mooc.service;
 
 
-import com.yudear.mooc.auth.model.User;
+import com.yudear.mooc.entiy.User;
 
 public interface ILoginService {
 
 
-    User login(String username,String password);
+    User login(String username, String password);
 }

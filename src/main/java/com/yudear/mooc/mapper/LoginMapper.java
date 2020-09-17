@@ -3,12 +3,11 @@ package com.yudear.mooc.mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.yudear.mooc.entiy.Role;
 import com.yudear.mooc.entiy.User;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.yudear.mooc.vo.UserRolePermission;
+import org.apache.ibatis.annotations.*;
 
-public interface UserMapper extends BaseMapper<User> {
+@Mapper
+public interface LoginMapper extends BaseMapper<User> {
 
 
     @Select("select * from tab_user where id=#{id}")
@@ -19,6 +18,9 @@ public interface UserMapper extends BaseMapper<User> {
             @Result(property = "avatar",column = "avatar"),
             @Result(property = "moto",column = "moto"),
             @Result(property = "email",column = "email"),
+            @Result(property = "role",column = "id",javaType = Role.class,
+            one = @One(select = "com.yudear.mooc.mapper.RoleMapper.findRoleById")),
     })
-    public User findUserById(int id);
+    UserRolePermission findUserRolePermissionById(int id);
+
 }

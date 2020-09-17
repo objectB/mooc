@@ -53,9 +53,9 @@ public class AuthConfig {
 
         Map<String, String> chaim  = new LinkedHashMap<>();
         chaim.put("/login","anon");
-        for(String en: NO_NEED_FILTER){
-            chaim.put(en,"anon");
-        }
+//        for(String en: NO_NEED_FILTER){
+//            chaim.put(en,"anon");
+//        }
         chaim.put("/**","noSessionCreation,jwtFilter");
 //        chaim.put("/api/**","jwtFilter");
         filterBean.setFilterChainDefinitionMap(chaim);

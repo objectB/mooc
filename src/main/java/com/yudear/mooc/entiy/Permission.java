@@ -1,13 +1,16 @@
 package com.yudear.mooc.entiy;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class Permission  implements Serializable {
@@ -22,8 +25,13 @@ public class Permission  implements Serializable {
     private Integer sort;
     private Integer hidden;
 
+    private List<Permission> children= Collections.emptyList();
+
     @TableField(value = "create_time")
+    @JSONField(serialize = false)
     private Date createTime;
+
     @TableField(value = "update_time")
+    @JSONField(serialize = false)
     private Date updateTime;
 }

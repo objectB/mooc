@@ -2,6 +2,8 @@ package com.yudear.mooc.auth.config;
 
 import com.yudear.mooc.auth.shiro.JWTFilter;
 import com.yudear.mooc.auth.shiro.ShiroRealm;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -17,7 +19,6 @@ import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.yudear.mooc.common.utils.Constants.NO_NEED_FILTER;
 
 @Configuration
 public class AuthConfig {
@@ -28,11 +29,19 @@ public class AuthConfig {
      * 配置安全管理器
      * @return
      */
-    @Bean
+    @Bean("securityManager")
     public SecurityManager securityManager(){
        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //注入自定义Realm
         securityManager.setRealm(new ShiroRealm());
+        // 关闭自带session
+        DefaultSessionStorageEvaluator evaluator = new DefaultSessionStorageEvaluator();
+        evaluator.setSessionStorageEnabled(false);
+
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        subjectDAO.setSessionStorageEvaluator(evaluator);
+
+        securityManager.setSubjectDAO(subjectDAO);
         return securityManager;
     }
 
@@ -56,7 +65,8 @@ public class AuthConfig {
 //        for(String en: NO_NEED_FILTER){
 //            chaim.put(en,"anon");
 //        }
-        chaim.put("/**","noSessionCreation,jwtFilter");
+      chaim.put("/**","noSessionCreation,jwtFilter");
+       // chaim.put("/**","jwtFilter");
 //        chaim.put("/api/**","jwtFilter");
         filterBean.setFilterChainDefinitionMap(chaim);
         return  filterBean;
@@ -87,7 +97,9 @@ public class AuthConfig {
    @Bean
    @DependsOn("lifecycleBeanPostProcessor")
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
-        return new DefaultAdvisorAutoProxyCreator();
+       DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+       defaultAdvisorAutoProxyCreator.setProxyTargetClass(true);
+       return defaultAdvisorAutoProxyCreator;
     }
 
 

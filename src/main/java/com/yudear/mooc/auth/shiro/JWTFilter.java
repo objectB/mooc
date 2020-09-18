@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,7 @@ public class JWTFilter extends AccessControlFilter {
         response.setContentType("application/json; charset=utf-8");
         String token = request.getHeader("Authorization");
 
+
         if(Constants.NO_NEED_FILTER.contains(request.getServletPath())){
             return  true;
         }
@@ -57,6 +59,11 @@ public class JWTFilter extends AccessControlFilter {
             subject.login(jwtToken);
         } catch (AuthenticationException e) {
             String msg = JSON.toJSONString(R.error(300, e.getMessage()));
+            response.getWriter().print(msg);
+            response.getWriter().close();
+            return false;
+        }catch (UnauthorizedException e){
+            String msg = JSON.toJSONString(R.error(300, "权限不足！"));
             response.getWriter().print(msg);
             response.getWriter().close();
             return false;

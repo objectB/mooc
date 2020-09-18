@@ -17,6 +17,7 @@ public interface RoleMapper extends BaseMapper<Role> {
             @Result(property = "desc", column = "desc"),
             @Result(property = "avatar", column = "avatar"),
             @Result(property = "sort", column = "sort"),
+            @Result(property = "flag", column = "flag"),
     })
     Role findRoleById(int id);
 }

@@ -1,5 +1,6 @@
 package com.yudear.mooc.entiy;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -22,9 +23,12 @@ public class Role implements Serializable {
     private String desc;
     private String avatar;
     private Integer sort;
+    private String flag;
     @TableField(value = "create_time")
+    @JSONField(serialize = false)
     private Date createTime;
     @TableField(value = "update_time")
+    @JSONField(serialize = false)
     private Date updateTime;
 
 

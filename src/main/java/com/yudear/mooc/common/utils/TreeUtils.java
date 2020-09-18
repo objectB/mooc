@@ -10,21 +10,30 @@ import java.util.Map;
 public class TreeUtils {
 
 
-    public static List<Permission> toTreeObject(List<Permission> list){
-        Map<Integer, Permission> mapTmp = new HashMap<>();
-        for (Permission current : list) {
-            mapTmp.put(current.getId(), current);
+    public static List<Permission> toTreeObject(List<Permission> permissions){
+        List<Permission> permissionList = new ArrayList<>();
+        for (Permission ps:permissions){
+             if(ps.getPid() == null || ps.getPid() == 0){
+                 permissionList.add(ps);
+             }
         }
-        List<Permission> finalList = new ArrayList<>();
-        mapTmp.forEach((k, v) -> {
-            if(v.getPid() == null || v.getPid().equals(0)) {
-                finalList.add(v);
-            } else {
-                mapTmp.get(v.getPid()).getChildren().add(v);
-            }
-        });
+        treeChildren(permissionList,permissions);
+        return  permissionList;
+    }
 
-        return  finalList;
+    private  static  void  treeChildren(List<Permission> sysPermissions,List<Permission> pers){
+        for (Permission sys:sysPermissions){
+            List<Permission> children = new ArrayList<>();
+            for(Permission  child:pers){
+                if(sys.getId() != null && sys.getId() == child.getPid()){
+                    children.add(child);
+                }
+            }
+            sys.setChildren(children);
+            treeChildren(children,pers);
+        }
+
+
     }
 }
 

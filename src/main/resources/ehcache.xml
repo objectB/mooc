@@ -23,7 +23,7 @@
     <cache
             name="user_token"
             overflowToDisk="true"
-            timeToLiveSeconds="180"
+            timeToLiveSeconds="1800"
             maxElementsInMemory="10000"
 
 

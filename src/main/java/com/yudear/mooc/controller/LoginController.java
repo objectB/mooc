@@ -9,6 +9,7 @@ import com.yudear.mooc.service.ILoginService;
 import com.yudear.mooc.service.IUserService;
 import com.yudear.mooc.vo.UserRolePermission;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,17 +38,20 @@ public class LoginController {
 
         String passwordMds = Md5Util.md5(password);
         User user = iLoginService.login(username, passwordMds);
-        UserRolePermission userRolePermission = userService.findUserRolePermission(user.getId());
+        Map<String,Object> map= userService.findUserRolePermission(user.getId());
 
         String token = JWTUtil.createToken(user.getId(),user.getUsername());
         EhCacheUtil.getInstance().put(EhCacheUtil.TOKEN_CACHE,EhCacheUtil.USER_TOKEN_KEY+user.getUsername(),token);
-        Map<String,Object> map = new HashMap<>();
         map.put("token",token);
-        map.put("userInfo",userRolePermission);
 
         return R.success("操作成功",map);
     }
 
+    @RequestMapping("/y")
+    @RequiresRoles("admin1")
+    public R yy(){
+        return R.success("操作成功","1");
+    }
 
 
 }

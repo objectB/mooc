@@ -26,11 +26,12 @@ public class JWTUtil {
     }
 
 
-    public static String createToken(int subject, String roles){
+    public static String createToken(int subject,String roles){
         JwtBuilder jwt = Jwts.builder();
         jwt.setId(subject+"");
         jwt.setIssuer(configProperties.getHeader());
         jwt.setSubject(roles);
+
         jwt.setIssuedAt(new Date());
         Date expiration =new Date(System.currentTimeMillis()+configProperties.getExpire()*1000);
         jwt.setExpiration(expiration);

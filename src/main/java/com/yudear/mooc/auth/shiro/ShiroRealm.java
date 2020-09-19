@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.yudear.mooc.auth.model.User;
 import com.yudear.mooc.auth.utils.EhCacheUtil;
 import com.yudear.mooc.auth.utils.JWTUtil;
+import com.yudear.mooc.common.exception.BizException;
+import com.yudear.mooc.common.utils.SpringContextUtils;
 import com.yudear.mooc.entiy.Permission;
 import com.yudear.mooc.entiy.Role;
 import com.yudear.mooc.service.IUserService;
@@ -23,9 +25,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.DatatypeConverter;
+import java.util.Map;
 
 
+
+@Slf4j
 public class ShiroRealm extends AuthorizingRealm {
+
+
+    @Autowired
+    private IUserService iUserService;
 
 
     @Override
@@ -46,6 +55,8 @@ public class ShiroRealm extends AuthorizingRealm {
          String  token = (String) jwtToken.getPrincipal();
          User user =new User();
 
+         log.error("认证");
+
          try{
              Claims  claims = Jwts.parser()
                      .setSigningKey(DatatypeConverter.parseBase64Binary(
@@ -57,7 +68,7 @@ public class ShiroRealm extends AuthorizingRealm {
              String old =(String) EhCacheUtil.getInstance().get(EhCacheUtil.TOKEN_CACHE,
                      EhCacheUtil.USER_TOKEN_KEY+user.getUsername());
              if(old != null && !old.equals(token)){
-                throw  new AuthenticationException("token失效");
+                throw  new AuthenticationException("账号在其他设备登陆");
              }
          }catch (ExpiredJwtException e){
             // throw  new AuthenticationException("token过期");
@@ -84,7 +95,21 @@ public class ShiroRealm extends AuthorizingRealm {
         //获取主凭证信息
         User user = (User) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addRole(user.getUsername());
+        log.error("授权");
+
+        if(iUserService == null){
+            iUserService = SpringContextUtils.getBean(IUserService.class);
+        }
+
+//        if(user.getId() == null){
+////            throw  new BizException("找不大权限");
+////        }
+
+        Map<String, Object> userRolePermission = (Map<String, Object>)iUserService.
+                findUserRolePermission(Integer.parseInt(user.getId()));
+
+        Role roles = (Role) userRolePermission.get("roles");
+        info.addRole(roles.getFlag());
 
         return info;
     }

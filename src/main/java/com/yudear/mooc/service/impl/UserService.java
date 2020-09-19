@@ -37,13 +37,10 @@ public class UserService implements IUserService {
 
     @Override
     public Map<String,Object> findUserRolePermission(int uId){
-       Map<String,Object> userMap = new HashMap<>();
-        User user= userMapper.findUserById(uId);
-        user.setPassword("");
+        Map<String, Object> userMap = new HashMap<>();
         Role role = roleMapper.findRoleById(uId);
-        List<Permission> permissionList= permissionMapper.findPermissionById(role.getId());
-        userMap.put("userInfo",user);
-        userMap.put("roles",role);
+        List<Permission> permissionList = permissionMapper.findPermissionById(role.getId());
+        userMap.put("roles", role);
         permissionList = TreeUtils.toTreeObject(permissionList);
         userMap.put("permission", permissionList);
         return userMap;

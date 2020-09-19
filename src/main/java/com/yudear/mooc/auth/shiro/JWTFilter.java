@@ -2,22 +2,17 @@ package com.yudear.mooc.auth.shiro;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.yudear.mooc.auth.utils.EhCacheUtil;
 import com.yudear.mooc.auth.utils.JWTUtil;
-import com.yudear.mooc.common.exception.BizException;
-import com.yudear.mooc.common.model.R;
+import com.yudear.mooc.common.response.RetCode;
+import com.yudear.mooc.common.response.RetResponse;
 import com.yudear.mooc.common.utils.Constants;
 import io.jsonwebtoken.*;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -46,11 +41,14 @@ public class JWTFilter extends AccessControlFilter {
         }
 
         if (StringUtils.isEmpty(token)) {
-            String msg = JSON.toJSONString(R.error(300, "token不能为空"));
+            String msg = JSON.toJSONString(RetResponse.error(RetCode.UNUSERTOKEN));
             response.getWriter().print(msg);
             response.getWriter().close();
             return false;
         }
+
+        Claims claimByToken = JWTUtil.getClaimByToken(token);
+
 
         JWTToken jwtToken = null;
         try {
@@ -58,12 +56,7 @@ public class JWTFilter extends AccessControlFilter {
             Subject subject = SecurityUtils.getSubject();
             subject.login(jwtToken);
         } catch (AuthenticationException e) {
-            String msg = JSON.toJSONString(R.error(300, e.getMessage()));
-            response.getWriter().print(msg);
-            response.getWriter().close();
-            return false;
-        }catch (UnauthorizedException e){
-            String msg = JSON.toJSONString(R.error(300, "权限不足！"));
+            String msg = JSON.toJSONString(RetResponse.error(RetCode.UNAUTHORIZED.code,e.getMessage()));
             response.getWriter().print(msg);
             response.getWriter().close();
             return false;

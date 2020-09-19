@@ -5,15 +5,21 @@ import com.yudear.mooc.auth.shiro.ShiroRealm;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -25,6 +31,13 @@ public class AuthConfig {
 
 
 
+     @Bean(name = "shiroRealm")
+     public ShiroRealm shiroRealm(){
+         ShiroRealm shiroRealm = new ShiroRealm();
+         return shiroRealm;
+    }
+
+
     /**
      * 配置安全管理器
      * @return
@@ -33,7 +46,7 @@ public class AuthConfig {
     public SecurityManager securityManager(){
        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //注入自定义Realm
-        securityManager.setRealm(new ShiroRealm());
+        securityManager.setRealm(shiroRealm());
         // 关闭自带session
         DefaultSessionStorageEvaluator evaluator = new DefaultSessionStorageEvaluator();
         evaluator.setSessionStorageEnabled(false);
@@ -102,5 +115,13 @@ public class AuthConfig {
        return defaultAdvisorAutoProxyCreator;
     }
 
-
+//
+//    @Override
+//    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+//        Realm userRealm = (Realm) applicationContext.getBean(ShiroRealm.class);
+//        DefaultWebSecurityManager defaultWebSecurityManager = (DefaultWebSecurityManager) applicationContext.getBean(SecurityManager.class);
+//        defaultWebSecurityManager.setRealm(userRealm);
+//
+//
+//    }
 }

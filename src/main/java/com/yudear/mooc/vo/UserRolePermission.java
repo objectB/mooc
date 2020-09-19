@@ -8,15 +8,15 @@ import com.yudear.mooc.entiy.Role;
 import com.yudear.mooc.entiy.User;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class UserRolePermission {
+public class UserRolePermission implements Serializable {
 
 
-    private User user;
     private Role role;
     private List<Permission> permissionList = Collections.emptyList();
 

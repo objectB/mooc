@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Properties;
 
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class MoocApplicationTests {
 
 

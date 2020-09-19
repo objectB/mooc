@@ -2,8 +2,10 @@ package com.yudear.mooc.common.controller;
 
 
 import com.yudear.mooc.common.exception.BizException;
-import com.yudear.mooc.common.model.R;
+import com.yudear.mooc.common.response.RetResponse;
+import com.yudear.mooc.common.response.RetCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,21 +24,21 @@ public class CommonExceptionHandler {
      * @return
      */
     @ExceptionHandler(BizException.class)
-    public R handlerException(BizException e) {
-        return R.error(e.getCode(), e.getMessage());
+    public RetResponse handlerException(BizException e) {
+        return RetResponse.error( e.getMessage());
     }
 
-    @ExceptionHandler(Throwable.class)
-    public R handlerException(Throwable e) {
-        return R.error(500,  e.getMessage());
+    @ExceptionHandler(UnauthorizedException.class)
+    public RetResponse handlerException(Exception  e) {
+        return RetResponse.error("权限不足");
     }
 
 
     //500错误
-    @ExceptionHandler({NullPointerException.class ,ConversionNotSupportedException.class, HttpMessageNotWritableException.class})
-    public R server500(RuntimeException ex) {
+    @ExceptionHandler({ConversionNotSupportedException.class, HttpMessageNotWritableException.class})
+    public RetResponse server500(RuntimeException ex) {
         System.err.println("RuntimeException:");
-        return R.error(500, "服务器错误");
+        return RetResponse.error(RetCode.INTERNAL_SERVER_ERROR);
 
 
     }

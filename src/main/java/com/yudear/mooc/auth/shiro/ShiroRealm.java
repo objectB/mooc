@@ -25,6 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.DatatypeConverter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 
@@ -107,8 +110,16 @@ public class ShiroRealm extends AuthorizingRealm {
 
         Map<String, Object> userRolePermission = (Map<String, Object>)iUserService.
                 findUserRolePermission(Integer.parseInt(user.getId()));
-
+        List<Permission> permissionList = (List<Permission>) userRolePermission.get("permissions");
         Role roles = (Role) userRolePermission.get("roles");
+
+        List<String> pList = new ArrayList<>();
+        for(Permission p:permissionList){
+            pList.add(p.getPermissionname());
+
+        }
+
+        info.addStringPermissions(pList);
         info.addRole(roles.getFlag());
 
         return info;

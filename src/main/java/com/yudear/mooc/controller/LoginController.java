@@ -9,6 +9,8 @@ import com.yudear.mooc.entiy.User;
 import com.yudear.mooc.service.ILoginService;
 import com.yudear.mooc.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +55,8 @@ public class LoginController  extends BaseController{
     }
 
     @RequestMapping("/y")
-    @RequiresRoles("admin1")
+    @RequiresRoles("admin")
+    @RequiresPermissions(value = {"user:b"},logical = Logical.AND)
     public RetResponse yy(){
         return RetResponse.success("操作成功","1");
     }

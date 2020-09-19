@@ -1,6 +1,6 @@
 package com.yudear.mooc.common.utils;
 
-import com.yudear.mooc.entiy.Permission;
+import com.yudear.mooc.entiy.MenuVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,21 +10,21 @@ import java.util.Map;
 public class TreeUtils {
 
 
-    public static List<Permission> toTreeObject(List<Permission> permissions){
-        List<Permission> permissionList = new ArrayList<>();
-        for (Permission ps:permissions){
+    public static List<MenuVo> toTreeObject(List<MenuVo> MenuVos){
+        List<MenuVo> MenuVoList = new ArrayList<>();
+        for (MenuVo ps:MenuVos){
              if(ps.getPid() == null || ps.getPid() == 0){
-                 permissionList.add(ps);
+                 MenuVoList.add(ps);
              }
         }
-        treeChildren(permissionList,permissions);
-        return  permissionList;
+        treeChildren(MenuVoList,MenuVos);
+        return  MenuVoList;
     }
 
-    private  static  void  treeChildren(List<Permission> sysPermissions,List<Permission> pers){
-        for (Permission sys:sysPermissions){
-            List<Permission> children = new ArrayList<>();
-            for(Permission  child:pers){
+    private  static  void  treeChildren(List<MenuVo> sysMenuVos,List<MenuVo> pers){
+        for (MenuVo sys:sysMenuVos){
+            List<MenuVo> children = new ArrayList<>();
+            for(MenuVo  child:pers){
                 if(sys.getId() != null && sys.getId() == child.getPid()){
                     children.add(child);
                 }

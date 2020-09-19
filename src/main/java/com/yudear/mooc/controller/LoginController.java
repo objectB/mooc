@@ -56,9 +56,9 @@ public class LoginController  extends BaseController{
 
     @RequestMapping("/y")
     @RequiresRoles("admin")
-    @RequiresPermissions(value = {"user:b"},logical = Logical.AND)
+    @RequiresPermissions(value = {"user:add"},logical = Logical.AND)
     public RetResponse yy(){
-        return RetResponse.success("操作成功","1");
+        return RetResponse.success("1");
     }
 
 

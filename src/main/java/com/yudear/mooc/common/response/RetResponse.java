@@ -17,9 +17,7 @@ public class RetResponse extends ConcurrentHashMap<String ,Object> {
         return  new RetResponse();
     }
 
-    public static RetResponse success(String msg){
-        return RetResponse.success().put("msg",msg);
-    }
+
 
     public static RetResponse success(Object data){
         return RetResponse.success().put("data",data);

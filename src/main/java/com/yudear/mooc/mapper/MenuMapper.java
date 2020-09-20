@@ -27,5 +27,6 @@ public interface MenuMapper extends BaseMapper<MenuVo> {
             @Result(property = "typename", column = "typename"),
 
     })
+
     List<MenuVo> findMenuVoByRoleId(int roleId);
 }

@@ -32,7 +32,7 @@ public class RetResponse extends ConcurrentHashMap<String ,Object> {
     }
 
     public static RetResponse error(String msg){
-        return RetResponse.success().put("code",RetCode.FAIL.code).put("msg",RetCode.FAIL.msg);
+        return RetResponse.success().put("code",RetCode.FAIL.code).put("msg",msg);
     }
 
     public static RetResponse error(RetCode retCode){

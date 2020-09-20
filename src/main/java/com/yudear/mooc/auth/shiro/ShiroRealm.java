@@ -57,9 +57,6 @@ public class ShiroRealm extends AuthorizingRealm {
          JWTToken jwtToken = (JWTToken) authenticationToken;
          String  token = (String) jwtToken.getPrincipal();
          User user =new User();
-
-         log.error("认证");
-
          try{
              Claims  claims = Jwts.parser()
                      .setSigningKey(DatatypeConverter.parseBase64Binary(
@@ -71,10 +68,10 @@ public class ShiroRealm extends AuthorizingRealm {
              String old =(String) EhCacheUtil.getInstance().get(EhCacheUtil.TOKEN_CACHE,
                      EhCacheUtil.USER_TOKEN_KEY+user.getUsername());
              if(old != null && !old.equals(token)){
-                throw  new AuthenticationException("账号在其他设备登陆");
+                throw  new AuthenticationException("token过期");
              }
          }catch (ExpiredJwtException e){
-            // throw  new AuthenticationException("token过期");
+             throw  new AuthenticationException("token过期");
          }catch (UnsupportedJwtException e){
              throw  new AuthenticationException("token无效");
          }catch (MalformedJwtException e){
@@ -98,16 +95,9 @@ public class ShiroRealm extends AuthorizingRealm {
         //获取主凭证信息
         User user = (User) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        log.error("授权");
-
         if(iUserService == null){
             iUserService = SpringContextUtils.getBean(IUserService.class);
         }
-
-//        if(user.getId() == null){
-////            throw  new BizException("找不大权限");
-////        }
-
         Map<String, Object> userRolePermission = (Map<String, Object>)iUserService.
                 findUserRolePermission(Integer.parseInt(user.getId()));
         List<Permission> permissionList = (List<Permission>) userRolePermission.get("permissions");

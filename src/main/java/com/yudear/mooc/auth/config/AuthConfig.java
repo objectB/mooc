@@ -11,11 +11,6 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -31,7 +26,7 @@ public class AuthConfig {
 
 
 
-     @Bean(name = "shiroRealm")
+     @Bean
      public ShiroRealm shiroRealm(){
          ShiroRealm shiroRealm = new ShiroRealm();
          return shiroRealm;
@@ -115,13 +110,4 @@ public class AuthConfig {
        return defaultAdvisorAutoProxyCreator;
     }
 
-//
-//    @Override
-//    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-//        Realm userRealm = (Realm) applicationContext.getBean(ShiroRealm.class);
-//        DefaultWebSecurityManager defaultWebSecurityManager = (DefaultWebSecurityManager) applicationContext.getBean(SecurityManager.class);
-//        defaultWebSecurityManager.setRealm(userRealm);
-//
-//
-//    }
 }

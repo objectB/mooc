@@ -11,6 +11,8 @@ import com.yudear.mooc.mapper.UserMapper;
 import com.yudear.mooc.service.IMenuService;
 import com.yudear.mooc.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.Map;
 
 
 @Service
+@CacheConfig(cacheNames = "users")
 public class UserService implements IUserService {
 
 
@@ -33,6 +36,7 @@ public class UserService implements IUserService {
     IMenuService menuService;
 
     @Override
+    @Cacheable
     public User findUserById(int id) {
         User user = new User();
         user.setId(id);

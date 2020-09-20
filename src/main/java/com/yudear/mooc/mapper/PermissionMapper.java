@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.yudear.mooc.entiy.Permission;
 import io.jsonwebtoken.impl.Base64UrlCodec;
 import org.apache.ibatis.annotations.*;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 

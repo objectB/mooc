@@ -8,5 +8,5 @@ spring:
   ##
 logging:
     level:
-       com.yudear.mooc: DEBUG
+       com.yudear.mooc.mapper: DEBUG
        com.baomidou.mybatisplus: DEBUG

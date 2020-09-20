@@ -38,25 +38,30 @@ public class JWTFilter extends AccessControlFilter {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         String token = request.getHeader("Authorization");
-
+        String paramToken = (String) request.getParameter("token");
 
         if(Constants.NO_NEED_FILTER.contains(request.getServletPath())){
             return  true;
         }
 
-        if (StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token)  && StringUtils.isEmpty(paramToken) ) {
             String msg = JSON.toJSONString(RetResponse.error(RetCode.UNUSERTOKEN));
             response.getWriter().print(msg);
             response.getWriter().close();
             return false;
         }
 
-        Claims claimByToken = JWTUtil.getClaimByToken(token);
-
+        String loginToken = "";
+        if(!StringUtils.isEmpty(token)){
+            loginToken = token;
+        }
+        if(!StringUtils.isEmpty(paramToken)){
+            loginToken = paramToken;
+        }
 
         JWTToken jwtToken = null;
         try {
-            jwtToken = new JWTToken(token);
+            jwtToken = new JWTToken(loginToken);
             Subject subject = SecurityUtils.getSubject();
             subject.login(jwtToken);
         } catch (AuthenticationException e) {
@@ -65,7 +70,7 @@ public class JWTFilter extends AccessControlFilter {
             response.getWriter().close();
             return false;
         }
-        request.setAttribute("token", JWTUtil.getClaimByToken(token));
+        request.setAttribute("token", JWTUtil.getClaimByToken(loginToken));
         return true;
     }
 

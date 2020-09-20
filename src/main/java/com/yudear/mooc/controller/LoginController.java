@@ -13,13 +13,14 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.Map;
 
 
-@RestController
+@Controller
 @Slf4j
 public class LoginController  extends BaseController{
 
@@ -30,6 +31,7 @@ public class LoginController  extends BaseController{
     IUserService userService;
 
     @PostMapping(value = "/login")
+    @ResponseBody
     public RetResponse login(@RequestBody Map<String,String>  params) {
         String username = params.get("username");
         String password = params.get("password");
@@ -61,5 +63,10 @@ public class LoginController  extends BaseController{
         return RetResponse.success("1");
     }
 
+
+    @RequestMapping("/index")
+    public String  index(){
+        return "test";
+    }
 
 }

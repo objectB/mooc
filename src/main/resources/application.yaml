@@ -8,6 +8,12 @@ spring:
   profiles:
       active : dev
         # ehcache 配置
+  thymeleaf:
+    suffix: .html
+    encoding: utf-8
+    prefix: classpath:/templates/
+    cache: false
+
   cache:
      ehcache:
        config: classpath:ehcache.xml

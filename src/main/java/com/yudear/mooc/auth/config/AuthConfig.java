@@ -70,12 +70,11 @@ public class AuthConfig {
 
         Map<String, String> chaim  = new LinkedHashMap<>();
         chaim.put("/login","anon");
-//        for(String en: NO_NEED_FILTER){
-//            chaim.put(en,"anon");
-//        }
-      chaim.put("/**","noSessionCreation,jwtFilter");
-       // chaim.put("/**","jwtFilter");
-//        chaim.put("/api/**","jwtFilter");
+        chaim.put("/static/**","anon");
+        chaim.put("/css/**","anon");
+        chaim.put("/templates/**","anon");
+
+       chaim.put("/**","noSessionCreation,jwtFilter");
         filterBean.setFilterChainDefinitionMap(chaim);
         return  filterBean;
     }

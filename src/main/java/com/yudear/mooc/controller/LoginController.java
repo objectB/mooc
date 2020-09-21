@@ -4,7 +4,6 @@ import com.yudear.mooc.auth.utils.EhCacheUtil;
 import com.yudear.mooc.auth.utils.JWTUtil;
 import com.yudear.mooc.auth.utils.Md5Util;
 import com.yudear.mooc.common.response.RetResponse;
-import com.yudear.mooc.common.response.RetCode;
 import com.yudear.mooc.entiy.User;
 import com.yudear.mooc.service.ILoginService;
 import com.yudear.mooc.service.IUserService;
@@ -65,8 +64,13 @@ public class LoginController  extends BaseController{
 
 
     @RequestMapping("/index")
-    public String  index(){
-        return "test";
+    public String  index1(){
+        return "/admin/test";
+    }
+
+    @RequestMapping("/movies")
+    public String  moves(){
+        return "/admin/test1";
     }
 
 }

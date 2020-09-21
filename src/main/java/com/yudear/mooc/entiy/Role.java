@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
-import org.beetl.sql.core.annotatoin.Table;
 
 import java.io.Serializable;
 import java.util.Collections;

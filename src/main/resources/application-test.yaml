@@ -1,0 +1,12 @@
+spring:
+    datasource:
+         url: jdbc:mysql://cdb-kglth37u.cd.tencentcdb.com:10009/mooc?useUnicode=true&characterEncoding=utf8
+         username: root
+         password: yudear@2020
+         driver-class-name: com.mysql.jdbc.Driver
+         type: com.alibaba.druid.pool.DruidDataSource
+  ##
+logging:
+    level:
+       com.yudear.mooc.mapper: DEBUG
+       com.baomidou.mybatisplus: DEBUG

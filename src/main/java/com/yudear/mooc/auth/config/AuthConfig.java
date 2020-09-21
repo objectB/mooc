@@ -72,7 +72,9 @@ public class AuthConfig {
         chaim.put("/login","anon");
         chaim.put("/static/**","anon");
         chaim.put("/css/**","anon");
+        chaim.put("/js/**","anon");
         chaim.put("/templates/**","anon");
+
 
        chaim.put("/**","noSessionCreation,jwtFilter");
         filterBean.setFilterChainDefinitionMap(chaim);

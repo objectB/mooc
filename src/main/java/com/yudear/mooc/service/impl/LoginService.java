@@ -21,10 +21,8 @@ public class LoginService implements ILoginService {
     public User login(String username, String password) {
         EntityWrapper<User> queryWrapper = new EntityWrapper<>();
         queryWrapper.eq("username",username).and().eq("password",password);
-
-        //userMapper.select
         List<User> users = userMapper.selectList(queryWrapper);
-        if(users == null)
+        if(users == null || users.size() == 0)
             throw new BizException("找不到用户");
 
         return  users.get(0);

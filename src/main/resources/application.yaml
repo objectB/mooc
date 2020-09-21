@@ -2,11 +2,11 @@ server:
     port : 8081
     ## 开发环境
     servlet:
-      context-path: /api
+      context-path: /blog
 
 spring:
   profiles:
-      active : dev
+      active : test
         # ehcache 配置
   thymeleaf:
     suffix: .html

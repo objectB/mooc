@@ -7,6 +7,6 @@ import java.util.List;
 public interface Constants {
 
 
-    List<String> NO_NEED_FILTER = CollectionUtils.asList("/login","/index");
+    List<String> NO_NEED_FILTER = CollectionUtils.asList("/login","/index","/","/movies");
 
 }

@@ -1,8 +1,8 @@
 server:
     port : 8081
     ## 开发环境
-    servlet:
-      context-path: /blog
+#    servlet:
+#      context-path: /blog
 
 spring:
   profiles:

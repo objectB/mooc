@@ -6,28 +6,30 @@
     <title>用户登录</title>
 
     <link rel="stylesheet" th:href="@{/css/rest.css}">
-    <link rel="stylesheet" th:href="@{/css/login/login.css}">
-    <link rel="stylesheet" th:href="@{/css/element.css}">
+    <link rel="stylesheet" th:href="@{/css/login/adminlogin.css}">
+    <link rel="stylesheet" th:href="@{/js/plugin/layui/css/layui.css}">
 
 </head>
 <body>
  <div class="admin-login-wrap"  id="login">
     <div class="login-content">
         <h3>用户登录</h3>
-            <el-button>默认按钮</el-button>
-            <el-button type="primary">主要按钮</el-button>
-            <el-button type="success">成功按钮</el-button>
-            <el-button type="info">信息按钮</el-button>
-            <el-button type="warning">警告按钮</el-button>
-            <el-button type="danger">危险按钮</el-button>
-
-        </div>
-
     </div>
 
 </div>
- <script th:src="@{/js/plugin/vue.js}"></script>
- <script th:src="@{/js/plugin/element.js}"></script>
+ <script th:src="@{/js/plugin/jquery-2.1.4.js}"></script>
+ <script th:src="@{/js/plugin/layui/layui.js}"></script>
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+ <script th:src="@{/js/http/http.js}"></script>
+ <script>
+
+     $(function () {
+         console.log($("#login"))
+
+     })
+
+
+ </script>
 
  <script>
  </script>

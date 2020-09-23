@@ -28,7 +28,9 @@ public class UserUtil {
     public static User getCurrentUser() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Claims claims = (Claims) request.getAttribute("token");
-        String subject = claims.getSubject();
+        if(claims == null){
+            return new User();
+        }
         User currentUser = realService.findUserById(Integer.valueOf(claims.getId()));
         return currentUser == null ? new User():currentUser;
     }

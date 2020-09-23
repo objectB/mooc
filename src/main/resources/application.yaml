@@ -1,5 +1,5 @@
 server:
-    port : 8081
+    port : 8040
     ## 开发环境
 #    servlet:
 #      context-path: /blog

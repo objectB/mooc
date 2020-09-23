@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 
@@ -31,7 +32,7 @@ public class LoginController  extends BaseController{
 
     @PostMapping(value = "/login")
     @ResponseBody
-    public RetResponse login(@RequestBody Map<String,String>  params) {
+    public RetResponse login(@RequestBody Map<String,String>  params,HttpSession session) {
         String username = params.get("username");
         String password = params.get("password");
         if(username == null || password == null){
@@ -52,6 +53,8 @@ public class LoginController  extends BaseController{
         map.put("token",token);
         map.put("user",user);
 
+
+
         return RetResponse.success(map);
     }
 
@@ -65,7 +68,7 @@ public class LoginController  extends BaseController{
 
     @RequestMapping("/index")
     public String  index1(){
-        return "/admin/test";
+        return "admin/test";
     }
 
     @RequestMapping("/movies")

@@ -14,19 +14,60 @@
  <div class="admin-login-wrap"  id="login">
     <div class="login-content">
         <h3>用户登录</h3>
+        <div class="layui-form" action="">
+            <div class="layui-form-item">
+               <label class="layui-form-label">用户名</label>
+               <div class="layui-input-block">
+                   <input type="text" name="username" lay-verify="required" lay-reqtext="用户名不能为空~"  autocomplete="off"
+                          class="layui-input">
+               </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" lay-verify="required" lay-reqtext="密码不能为空~"  autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item" style="margin-top: 40px">
+                <div class="layui-input-block">
+                    <button  style="width: 100%"  class="layui-btn"  onclick="adlogin()">登录</button>
+                </div>
+            </div>
+
+        </div>
+
+
     </div>
 
 </div>
  <script th:src="@{/js/plugin/jquery-2.1.4.js}"></script>
- <script th:src="@{/js/plugin/layui/layui.js}"></script>
+ <script th:src="@{/js/plugin/layui/layui.all.js}"></script>
  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
  <script th:src="@{/js/http/http.js}"></script>
  <script>
+     function  adlogin(){
+        var name =$("input[name='username']").val()
+        var password =$("input[name='password']").val()
+         if(name === "" || password ===""){
+             layer.msg('用户名和密码不能为空~', {icon: 2});
+             return ;
+         }
+         post("/login",{
+             username:name,
+             password:password
+         }).then(res =>{
+             console.log(res)
+             localStorage.setItem("token",res.data.token)
+             location.href="/index"
+         }).catch(err =>{
 
+         })
+     }
      $(function () {
-         console.log($("#login"))
 
-     })
+   })
 
 
  </script>

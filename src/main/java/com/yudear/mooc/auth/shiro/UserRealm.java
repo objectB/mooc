@@ -2,6 +2,7 @@ package com.yudear.mooc.auth.shiro;
 
 import com.yudear.mooc.common.utils.SpringContextUtils;
 import com.yudear.mooc.entiy.User;
+import com.yudear.mooc.service.ILoginService;
 import com.yudear.mooc.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserRealm extends AuthorizingRealm {
 
     @Autowired
-    private IUserService iUserService;
+    private ILoginService iLoginService;
 
     /**
      * 授权逻辑
@@ -34,11 +35,13 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        if(iUserService == null){
-            iUserService = SpringContextUtils.getBean(IUserService.class);
+        String  username = (String) token.getPrincipal();
+        if(iLoginService== null){
+            iLoginService= SpringContextUtils.getBean(ILoginService.class);
         }
-        User user = new User();
+        User user = iLoginService.login(username);
         if(user == null){
+            return  null;
         }
 
         return new SimpleAuthenticationInfo(user,user.getPassword(),"");

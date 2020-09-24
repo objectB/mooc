@@ -57,7 +57,6 @@ function post(url,params) {
              .then(res=>{
                  resolve(res)
              }).catch(err =>{
-                 console.log()
                 reject(err)
          })
     })

@@ -17,14 +17,29 @@ public class AdminController extends BaseController {
 
     @RequestMapping("/")
     public String index() {
-        User currentUser = UserUtil.getCurrentUser();
-        if (currentUser != null) {
-            if (currentUser.getId() != null) {
-                return "forward:/index";
-            } else {
-                return "/admin/login/login";
-            }
+        User user = UserUtil.getUser();
+        if(user != null){
+            return "redirect:/admin/index";
         }
-        return "forward:/index";
+        return "/admin/login/login";
     }
+
+    @RequestMapping("/admin/index")
+    public String  defaultPage(){
+        return "/admin/default/index";
+    }
+
+
+    @RequestMapping("/user/info")
+    public String  moves(){
+        return "/admin/test1";
+    }
+
+
+
+    @RequestMapping("/user/update")
+    public String  update(){
+        return "/admin/test1";
+    }
+
 }

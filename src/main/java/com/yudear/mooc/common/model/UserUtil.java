@@ -3,6 +3,7 @@ package com.yudear.mooc.common.model;
 import com.yudear.mooc.entiy.User;
 import com.yudear.mooc.service.IUserService;
 import io.jsonwebtoken.Claims;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -33,5 +34,11 @@ public class UserUtil {
         }
         User currentUser = realService.findUserById(Integer.valueOf(claims.getId()));
         return currentUser == null ? new User():currentUser;
+    }
+
+
+    public static User getUser(){
+      User user = (User) SecurityUtils.getSubject().getPrincipal();
+      return user;
     }
 }

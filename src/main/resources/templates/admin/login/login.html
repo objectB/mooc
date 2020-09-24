@@ -11,7 +11,7 @@
 
 </head>
 <body>
- <div class="admin-login-wrap"  id="login">
+ <div class="admin-login-wrap"  id="login" >
     <div class="login-content">
         <h3>用户登录</h3>
         <div class="layui-form" action="">
@@ -58,10 +58,13 @@
              username:name,
              password:password
          }).then(res =>{
-             console.log(res)
-             localStorage.setItem("token",res.data.token)
-             location.href="/index"
+             layer.msg("登录成功", {icon: 0,timeout:2000},
+                 function () {
+                     window.location.href = "/admin/index"
+                 });
+
          }).catch(err =>{
+             layer.msg(err.data.msg, {icon: 2});
 
          })
      }

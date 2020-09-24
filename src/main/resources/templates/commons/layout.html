@@ -2,7 +2,6 @@
 <html  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <link rel="stylesheet" th:href="@{/css/rest.css}" >
@@ -14,33 +13,33 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">layui 后台布局</div>
+        <div class="layui-logo">XXX管理后台</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
-            <li class="layui-nav-item">
-                <a href="/movies">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
-                </dl>
-            </li>
+<!--            <li class="layui-nav-item"><a href="">控制台</a></li>-->
+<!--            <li class="layui-nav-item"><a href="">商品管理</a></li>-->
+<!--            <li class="layui-nav-item"><a href="">用户</a></li>-->
+<!--            <li class="layui-nav-item">-->
+<!--                <a href="/movies">其它系统</a>-->
+<!--                <dl class="layui-nav-child">-->
+<!--                    <dd><a href="">邮件管理</a></dd>-->
+<!--                    <dd><a href="">消息管理</a></dd>-->
+<!--                    <dd><a href="">授权管理</a></dd>-->
+<!--                </dl>-->
+<!--            </li>-->
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                <a  th:text="${user.nickname}">
+                    <img th:src="@{${user.avatar}}" class="layui-nav-img">
+
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退了</a></li>
+            <li class="layui-nav-item"><a th:href="@{/logout}">退了</a></li>
         </ul>
     </div>
 
@@ -48,25 +47,12 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                <li class="layui-nav-item " th:each="c:${menu}">
+                    <a th:text="${c.title}" href="javascript:;" ></a>
+                    <dl class="layui-nav-child" th:each="child:${c.children}">
+                        <dd><a th:text="${child.title}" th:href="@{${child.path}}" ></a></dd>
                     </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
+                 </li>
             </ul>
         </div>
     </div>
@@ -81,5 +67,43 @@
 <script th:src="@{/js/plugin/layui/layui.all.js}"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script th:src="@{/js/http/http.js}"></script>
+<script>
+
+    function GetUrlRelativePath() {
+        var url = document.location.toString();
+        var arrUrl = url.split("//");
+
+        var start = arrUrl[1].indexOf("/");
+        var relUrl = arrUrl[1].substring(start);// stop省略，截取从start开始到结尾的所有字符
+
+        if (relUrl.indexOf("?") != -1) {
+            relUrl = relUrl.split("?")[0];
+        }
+        return relUrl;
+    }
+
+
+    $(function () {
+        $('.layui-nav-tree').on('click','li',function(){
+            $(this).addClass('layui-nav-itemed').siblings('li').removeClass('layui-nav-itemed')
+        })
+
+        var url = GetUrlRelativePath();
+        var patt1 = new RegExp(url);
+        //$(".layui-this").removeClass();
+        $(document.body).find('a').each(function(i, obj) {
+            var str = $(obj).attr('href');
+            if (patt1.test(str)) {
+                $(obj).parents("li").addClass("layui-nav-itemed")
+                $(obj).parent().addClass("layui-this");
+            }
+        });
+
+
+
+
+    })
+
+</script>
 </body>
 </html>
